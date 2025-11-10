@@ -28,9 +28,8 @@ export default function RegisterPage() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    // Simulate registration
     setTimeout(() => {
-      router.push("/")
+      router.push("/auth/login")
       setLoading(false)
     }, 1000)
   }
@@ -75,7 +74,7 @@ export default function RegisterPage() {
                   >
                     <div className="text-center">
                       <div className="text-5xl mb-3 group-hover:scale-110 transition">🛍️</div>
-                      <h3 className="font-bold text-lg text-primary">I'm a Buyer</h3>
+                      <h3 className="font-bold text-lg text-primary">I&apos;m a Buyer</h3>
                       <p className="text-sm text-muted-foreground mt-2">Browse and purchase items on campus</p>
                     </div>
                   </button>
@@ -86,7 +85,7 @@ export default function RegisterPage() {
                   >
                     <div className="text-center">
                       <div className="text-5xl mb-3 group-hover:scale-110 transition">📦</div>
-                      <h3 className="font-bold text-lg text-accent-foreground">I'm a Seller</h3>
+                      <h3 className="font-bold text-lg text-accent-foreground">I&apos;m a Seller</h3>
                       <p className="text-sm text-muted-foreground mt-2">List and sell your items</p>
                     </div>
                   </button>

@@ -8,14 +8,16 @@ interface CategoriesSidebarProps {
 }
 
 const categories = [
-  { id: "vehicles", name: "Vehicles", count: 17801, icon: "🚗" },
-  { id: "property", name: "Property", count: 19563, icon: "🏠" },
-  { id: "phones", name: "Mobile Phones & Tablets", count: 35559, icon: "📱" },
-  { id: "electronics", name: "Electronics", count: 359665, icon: "💻" },
-  { id: "furniture", name: "Home, Furniture & Appliances", count: 57843, icon: "🛋️" },
-  { id: "fashion", name: "Fashion", count: 40381, icon: "👗" },
-  { id: "beauty", name: "Beauty & Personal Care", count: 36439, icon: "💄" },
-  { id: "services", name: "Services", count: 2441, icon: "🔧" },
+  { id: "phones", name: "Mobile Phones", count: 1245, icon: "📱" },
+  { id: "pcs", name: "PC & Laptops", count: 987, icon: "💻" },
+  { id: "earphones", name: "Earphones & Earpods", count: 852, icon: "🎧" },
+  { id: "books", name: "Books & Notes", count: 2345, icon: "📚" },
+  { id: "snacks", name: "Peanut Butter & Snacks", count: 623, icon: "🥜" },
+  { id: "beauty", name: "Beauty Products", count: 412, icon: "💄" },
+  { id: "drinks", name: "Jarred Water & Drinks", count: 789, icon: "💧" },
+  { id: "furniture", name: "Furniture & Room Items", count: 354, icon: "🛋️" },
+  { id: "stationery", name: "Stationery", count: 1023, icon: "✏️" },
+  { id: "services", name: "Services", count: 198, icon: "🔧" }
 ]
 
 export default function CategoriesSidebar({ selectedCategory, onSelectCategory }: CategoriesSidebarProps) {

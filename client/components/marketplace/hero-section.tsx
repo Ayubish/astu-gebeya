@@ -1,33 +1,37 @@
 "use client"
 
-import type React from "react"
-
+import React, { useState } from "react"
 import { Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 interface HeroSectionProps {
-  onSearch: (query: string) => void
+  onSearch: (query: string, category?: string) => void
 }
 
 export default function HeroSection({ onSearch }: HeroSectionProps) {
+  const [selectedCategory, setSelectedCategory] = useState("All Categories")
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    onSearch(formData.get("search") as string)
+    onSearch(formData.get("search") as string, selectedCategory)
   }
 
   return (
     <section className="bg-gradient-to-r from-primary via-primary to-primary/80 py-16 md:py-24">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">What are you looking for?</h2>
-          <p className="text-primary-foreground/80 mb-8 text-lg">
-            Find books, electronics, furniture, and more from your campus community
-          </p>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
+            What are you looking for?
+          </h2>
 
           <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3">
-            <select className="px-4 py-3 rounded-lg border border-accent/30 bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-accent md:w-48">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="px-4 py-3 rounded-lg border border-accent/30 bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-accent md:w-48"
+            >
               <option>All Categories</option>
               <option>Books & Notes</option>
               <option>Electronics</option>
@@ -35,6 +39,7 @@ export default function HeroSection({ onSearch }: HeroSectionProps) {
               <option>Fashion</option>
               <option>Services</option>
             </select>
+
             <div className="flex-1 relative">
               <Input
                 name="search"

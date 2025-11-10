@@ -1,12 +1,14 @@
 export const CATEGORIES = [
-  { id: 1, name: "Vehicles", icon: "🚗", count: 17801 },
-  { id: 2, name: "Property", icon: "🏠", count: 19563 },
-  { id: 3, name: "Mobile Phones & Tablets", icon: "📱", count: 35559 },
-  { id: 4, name: "Electronics", icon: "💻", count: 359665 },
-  { id: 5, name: "Home, Furniture & Appliances", icon: "🛋️", count: 57843 },
-  { id: 6, name: "Fashion", icon: "👗", count: 40381 },
-  { id: 7, name: "Beauty & Personal Care", icon: "💄", count: 36439 },
-  { id: 8, name: "Services", icon: "🔧", count: 2441 },
+   { id: 1, name: "Mobile Phones", icon: "📱", count: 1245 },
+  { id: 2, name: "PC & Laptops", icon: "💻", count: 987 },
+  { id: 3, name: "Earphones & Earpods", icon: "🎧", count: 852 },
+  { id: 4, name: "Books & Notes", icon: "📚", count: 2345 },
+  { id: 5, name: "Peanut Butter & Snacks", icon: "🥜", count: 623 },
+  { id: 6, name: "Beauty Products", icon: "💄", count: 412 },
+  { id: 7, name: "Jarred Water & Drinks", icon: "💧", count: 789 },
+  { id: 8, name: "Furniture & Room Items", icon: "🛋️", count: 354 },
+  { id: 9, name: "Stationery", icon: "✏️", count: 1023 },
+  { id: 10, name: "Services", icon: "🔧", count: 198 }
 ]
 
 export const MOCK_PRODUCTS = [
