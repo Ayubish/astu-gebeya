@@ -27,10 +27,12 @@ app.use(
 
 // Import routes
 import uploadRoutes from "./routes/upload.routes";
+import productRoutes from "./routes/product.routes";
 
 // Define routes
 app.use('/api/v1/upload', uploadRoutes);
 app.use('/api/v1/images', express.static(path.join(__dirname, '/public/images')))
+app.use('/api/v1/products', productRoutes);
 
 app.get("/", function(req, res) {
   res.send("This is the homepage");

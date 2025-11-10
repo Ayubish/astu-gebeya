@@ -18,6 +18,7 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  products      Product[] // <-- new back-relation
 
   @@unique([email])
   @@map("user")
