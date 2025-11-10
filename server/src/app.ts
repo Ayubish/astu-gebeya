@@ -25,8 +25,11 @@ app.use(
   })
 );
 
-// TODO: DEFINING THE ROUTES
+// Import routes
+import uploadRoutes from "./routes/upload.routes";
 
+// Define routes
+app.use('/api/v1/upload', uploadRoutes);
 app.use('/api/v1/images', express.static(path.join(__dirname, '/public/images')))
 
 app.get("/", function(req, res) {
