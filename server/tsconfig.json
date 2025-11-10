@@ -3,17 +3,18 @@
       "target": "ES6",
       "module": "CommonJS",
       "outDir": "./dist",
-      "rootDir": "./src",
+      "rootDir": ".",
       "strict": true,
       "esModuleInterop": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
       "baseUrl": "./",
       "paths": {
-        "@src/*": ["src/*"]
+        "@src/*": ["src/*"],
+        "@prisma/client": ["./node_modules/@prisma/client/index"]
       }
     },
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "prisma/**/*.ts"],
     "exclude": ["node_modules"]
   }
   

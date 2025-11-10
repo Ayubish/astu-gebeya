@@ -28,6 +28,7 @@ const storage = multer.diskStorage({
   },
 });
 
+// Configure multer with more permissive settings
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -41,18 +42,37 @@ const upload = multer({
       cb(new Error('Only .png, .jpg, .jpeg and .webp format allowed!'));
     }
   },
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+    files: 5 // Max 5 files
+  }
 });
+
+// Middleware to handle file uploads with any field name
+const handleFileUpload = (req: any, res: any, next: any) => {
+  const uploadHandler = upload.any(); // Accept any field name
+
+  uploadHandler(req, res, (err: any) => {
+    if (err) {
+      console.error('File upload error:', err);
+      return res.status(400).json({
+        success: false,
+        message: err.message || 'Error uploading files',
+      });
+    }
+    next();
+  });
+};
 
 // Public routes
 router.get('/', getProducts);
 router.get('/:id', getProduct);
 
-// Create product with file upload
-router.post('/', upload.array('images', 5), createProduct);
+// Create product with file upload (supports both 'images' and 'files' field names)
+router.post('/', handleFileUpload, createProduct);
 
-// Update product with optional file upload
-router.put('/:id', upload.array('images', 5), updateProduct);
+// Update product with file upload (supports both 'images' and 'files' field names)
+router.put('/:id', handleFileUpload, updateProduct);
 
 router.delete('/:id', deleteProduct);
 

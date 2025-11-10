@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import prisma  from '../config/db';
-import { RequestWithUser } from '../types/request';
 
 type CreateProductInput = {
   name: string;
@@ -16,21 +15,39 @@ type CreateProductInput = {
 // @access  Public (for testing)
 export const createProduct = async (req: Request, res: Response) => {
   try {
-    const { name, description, price, category, stock = 0 }: CreateProductInput = req.body;
+    // Parse form data
+    const { name, description, price, category, stock } = req.body;
     
     // Get uploaded files from multer
-    const files = req.files as Express.Multer.File[];
+    const files = (req.files as Express.Multer.File[]) || [];
+    
+    // Log request details for debugging
+    console.log('Request body:', req.body);
+    console.log('Uploaded files:', files);
+    
+    // Convert price and stock to numbers
+    const priceValue = parseFloat(price);
+    const stockValue = stock ? parseInt(stock as string, 10) : 0;
     
     // Validate required fields
     if (!name || !description || !price || !category) {
       return res.status(400).json({
         success: false,
         message: 'Please provide all required fields: name, description, price, and category',
+        received: { name, description, price, category }
+      });
+    }
+
+    // Check if price is a valid number
+    if (isNaN(priceValue)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Price must be a valid number',
       });
     }
 
     // Check if any files were uploaded
-    if (!files || files.length === 0) {
+    if (files.length === 0) {
       return res.status(400).json({
         success: false,
         message: 'Please upload at least one image for the product',
@@ -43,12 +60,12 @@ export const createProduct = async (req: Request, res: Response) => {
     // Create product with image URLs
     const product = await prisma.product.create({
       data: {
-        name,
-        description,
-        price: parseFloat(price as unknown as string),
-        category,
+        name: String(name),
+        description: String(description),
+        price: priceValue,
+        category: String(category),
         images: imageUrls,
-        stock: parseInt(stock as unknown as string) || 0,
+        stock: stockValue,
         sellerId: 'test-seller-id',
       },
       select: {

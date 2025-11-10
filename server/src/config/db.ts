@@ -1,6 +1,7 @@
-import { PrismaClient } from '@prisma/client';
-
 // Add this to ensure we don't create multiple instances of Prisma Client in development
+
+import { PrismaClient } from "prisma/client/client";
+
 // when using HMR (Hot Module Replacement)
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
