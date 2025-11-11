@@ -1,65 +1,78 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { ArrowLeft, MapPin, Star, Heart, Filter, Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import Header from "@/components/marketplace/header"
-import Footer from "@/components/marketplace/footer"
-import { CATEGORIES, MOCK_PRODUCTS } from "@/lib/constants"
+import { useState, use } from "react";
+import Link from "next/link";
+import { ArrowLeft, MapPin, Star, Heart, Filter, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Header from "@/components/marketplace/header";
+import Footer from "@/components/marketplace/footer";
+import { CATEGORIES, MOCK_PRODUCTS } from "@/lib/constants";
 
 interface CategoryDetailsPageProps {
   params: {
-    id: string
-  }
+    id: string;
+  };
 }
 
-export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps) {
-  const [favorites, setFavorites] = useState<number[]>([])
-  const [sortBy, setSortBy] = useState("newest")
-  const [searchInCategory, setSearchInCategory] = useState("")
+export default function CategoryDetailsPage({
+  params,
+}: CategoryDetailsPageProps) {
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [sortBy, setSortBy] = useState("newest");
+  const [searchInCategory, setSearchInCategory] = useState("");
 
-  const category = CATEGORIES.find((c) => c.id.toString() === params.id)
-  const categoryProducts = MOCK_PRODUCTS.filter((p) => p.category === Number.parseInt(params.id))
+  // `params` may be a Promise in client components. Unwrap with React.use()
+  const resolvedParams = use(params as unknown as Promise<{ id: string }>);
+
+  const category = CATEGORIES.find(
+    (c) => c.id.toString() === resolvedParams.id
+  );
+  const categoryProducts = MOCK_PRODUCTS.filter(
+    (p) => p.category === Number.parseInt(resolvedParams.id)
+  );
 
   const filteredProducts = categoryProducts.filter((p) =>
-    p.title.toLowerCase().includes(searchInCategory.toLowerCase()),
-  )
+    p.title.toLowerCase().includes(searchInCategory.toLowerCase())
+  );
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
       case "price-low":
-        return a.price - b.price
+        return a.price - b.price;
       case "price-high":
-        return b.price - a.price
+        return b.price - a.price;
       case "rating":
-        return b.rating - a.rating
+        return b.rating - a.rating;
       default:
-        return 0
+        return 0;
     }
-  })
+  });
 
   if (!category) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen bg-primary flex flex-col">
         <Header onSellClick={() => {}} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <p className="text-muted-foreground text-lg">Category not found</p>
-            <Link href="/categories" className="text-primary hover:text-primary/80 mt-4 inline-block">
+            <Link
+              href="/categories"
+              className="text-primary hover:text-primary/80 mt-4 inline-block">
               Browse all categories
             </Link>
           </div>
         </div>
         <Footer />
       </div>
-    )
+    );
   }
 
   const toggleFavorite = (id: number) => {
-    setFavorites((prev) => (prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]))
-  }
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]
+    );
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -68,7 +81,9 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
       {/* Header */}
       <div className="bg-gradient-to-r from-primary via-primary to-primary/80 text-white">
         <div className="container mx-auto px-4 py-8">
-          <Link href="/categories" className="flex items-center gap-2 text-white/80 hover:text-white mb-4 w-fit">
+          <Link
+            href="/categories"
+            className="flex items-center gap-2 text-white/80 hover:text-white mb-4 w-fit">
             <ArrowLeft className="w-5 h-5" />
             Back to Categories
           </Link>
@@ -77,7 +92,9 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
             <div className="text-5xl">{category.icon}</div>
             <div>
               <h1 className="text-3xl font-bold">{category.name}</h1>
-              <p className="text-white/90">{filteredProducts.length} items available</p>
+              <p className="text-white/90">
+                {filteredProducts.length} items available
+              </p>
             </div>
           </div>
         </div>
@@ -98,8 +115,7 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 rounded-lg border border-border bg-input text-foreground text-sm"
-              >
+                className="px-4 py-2 rounded-lg border border-border bg-input text-foreground text-sm">
                 <option value="newest">Newest</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
@@ -137,14 +153,15 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
 
                     <button
                       onClick={(e) => {
-                        e.preventDefault()
-                        toggleFavorite(product.id)
+                        e.preventDefault();
+                        toggleFavorite(product.id);
                       }}
-                      className="absolute top-2 right-2 p-1.5 rounded-full bg-white/90 hover:bg-white transition"
-                    >
+                      className="absolute top-2 right-2 p-1.5 rounded-full bg-white/90 hover:bg-white transition">
                       <Heart
                         className={`w-4 h-4 transition ${
-                          favorites.includes(product.id) ? "fill-red-500 text-red-500" : "text-muted-foreground"
+                          favorites.includes(product.id)
+                            ? "fill-red-500 text-red-500"
+                            : "text-muted-foreground"
                         }`}
                       />
                     </button>
@@ -152,9 +169,13 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
 
                   {/* Content */}
                   <div className="p-3">
-                    <p className="text-xl font-bold text-primary">ETB {product.price.toLocaleString()}</p>
+                    <p className="text-xl font-bold text-primary">
+                      ETB {product.price.toLocaleString()}
+                    </p>
 
-                    <h3 className="font-semibold text-foreground text-sm line-clamp-2 mb-2 mt-1">{product.title}</h3>
+                    <h3 className="font-semibold text-foreground text-sm line-clamp-2 mb-2 mt-1">
+                      {product.title}
+                    </h3>
 
                     <div className="flex items-center gap-1 mb-2">
                       <div className="flex">
@@ -162,16 +183,22 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
                           <Star
                             key={i}
                             className={`w-3 h-3 ${
-                              i < Math.floor(product.rating) ? "fill-accent text-accent" : "text-muted-foreground"
+                              i < Math.floor(product.rating)
+                                ? "fill-accent text-accent"
+                                : "text-muted-foreground"
                             }`}
                           />
                         ))}
                       </div>
-                      <span className="text-xs text-muted-foreground">{product.rating}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {product.rating}
+                      </span>
                     </div>
 
                     <div className="border-t border-border pt-2 mb-2">
-                      <span className="text-xs font-medium text-foreground">{product.seller}</span>
+                      <span className="text-xs font-medium text-foreground">
+                        {product.seller}
+                      </span>
                       <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
                         <MapPin className="w-3 h-3" />
                         {product.location}
@@ -189,13 +216,17 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
         ) : (
           <div className="text-center py-12">
             <Search className="w-16 h-16 mx-auto text-muted-foreground mb-4 opacity-50" />
-            <p className="text-muted-foreground text-lg">No items found in this category</p>
-            <p className="text-muted-foreground text-sm mt-2">Try adjusting your search</p>
+            <p className="text-muted-foreground text-lg">
+              No items found in this category
+            </p>
+            <p className="text-muted-foreground text-sm mt-2">
+              Try adjusting your search
+            </p>
           </div>
         )}
       </div>
 
       <Footer />
     </div>
-  )
+  );
 }

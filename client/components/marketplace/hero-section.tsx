@@ -19,7 +19,7 @@ export default function HeroSection({ onSearch }: HeroSectionProps) {
   };
 
   return (
-    <section className="bg-gradient-to-r from-primary via-primary to-primary/80 py-16 md:py-24">
+    <section className="bg-primary py-16 md:py-24">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
           <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6">

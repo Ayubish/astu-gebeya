@@ -44,7 +44,7 @@ export default function ProfilePage() {
       <Header onSellClick={() => {}} />
 
       {/* Profile Header */}
-      <div className="bg-gradient-to-r from-primary via-primary to-primary/80 text-white">
+      <div className="bg-primary text-white">
         <div className="container mx-auto px-4 py-8">
           <Link href="/" className="flex items-center gap-2 text-white/80 hover:text-white mb-6 w-fit">
             <ArrowLeft className="w-5 h-5" />

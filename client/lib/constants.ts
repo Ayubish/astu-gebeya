@@ -1,3 +1,5 @@
+import { Product } from "./types";
+
 export const CATEGORIES = [
   { id: 1, name: "Vehicles", icon: "🚗", count: 17801 },
   { id: 2, name: "Property", icon: "🏠", count: 19563 },
@@ -7,9 +9,9 @@ export const CATEGORIES = [
   { id: 6, name: "Fashion", icon: "👗", count: 40381 },
   { id: 7, name: "Beauty & Personal Care", icon: "💄", count: 36439 },
   { id: 8, name: "Services", icon: "🔧", count: 2441 },
-]
+];
 
-export const MOCK_PRODUCTS = [
+export const MOCK_PRODUCTS: Product[] = [
   {
     id: 1,
     title: "New OnePlus 9 256 GB Blue",
@@ -18,7 +20,10 @@ export const MOCK_PRODUCTS = [
     image: "/iphone-13-smartphone.jpg",
     condition: "Brand New",
     seller: "TechHub Store",
+    verified: true,
     rating: 4.8,
+    description:
+      "OnePlus 9 in pristine condition. 256GB storage, 8GB RAM, original charger included. Fast performance and excellent camera.",
     category: 3,
   },
   {
@@ -29,6 +34,7 @@ export const MOCK_PRODUCTS = [
     image: "/iphone-13-smartphone.jpg",
     condition: "Brand New",
     seller: "Mobile Express",
+    verified: true,
     rating: 4.9,
     category: 3,
   },
@@ -63,6 +69,8 @@ export const MOCK_PRODUCTS = [
     condition: "Used",
     seller: "Sofia D.",
     rating: 5.0,
+    description:
+      "Well maintained Toyota Corolla 1.6, single owner, full service history, excellent tyres and interior.",
     category: 1,
   },
   {
@@ -71,7 +79,7 @@ export const MOCK_PRODUCTS = [
     price: 1600000,
     location: "Addis Ababa, Bole",
     image: "/vehicles/honda-civic.jpg",
-    condition: "Good",
+    condition: "Used",
     seller: "Daniel K.",
     rating: 4.6,
     category: 1,
@@ -107,6 +115,9 @@ export const MOCK_PRODUCTS = [
     condition: "Brand New",
     seller: "Apple Authorized",
     rating: 5.0,
+    verified: true,
+    description:
+      "MacBook Pro 16-inch with M1 chip. Brand new unit with warranty and original packaging.",
     category: 4,
   },
   {
@@ -120,9 +131,9 @@ export const MOCK_PRODUCTS = [
     rating: 4.5,
     category: 5,
   },
-]
+];
 
 export const USER_TYPES = {
   BUYER: "buyer",
   SELLER: "seller",
-} as const
+} as const;

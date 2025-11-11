@@ -1,38 +1,40 @@
 export interface Product {
-  id: number
-  title: string
-  price: number
-  location: string
-  image: string
-  condition: "Brand New" | "Used" | "Like New"
-  seller: string
-  rating: number
-  category: number
-  description?: string
+  id: number;
+  title: string;
+  price: number;
+  location: string;
+  image: string;
+  condition: "Brand New" | "Used" | "Like New";
+  seller: string;
+  /** Whether the seller/listing is verified (optional) */
+  verified?: boolean;
+  rating: number;
+  category: number;
+  description?: string;
 }
 
 export interface Category {
-  id: number
-  name: string
-  icon: string
-  count: number
+  id: number;
+  name: string;
+  icon: string;
+  count: number;
 }
 
 export interface User {
-  id: string
-  email: string
-  userType: "buyer" | "seller"
-  name: string
-  avatar?: string
-  rating?: number
-  createdAt: Date
+  id: string;
+  email: string;
+  userType: "buyer" | "seller";
+  name: string;
+  avatar?: string;
+  rating?: number;
+  createdAt: Date;
 }
 
 export interface FormData {
-  email: string
-  password: string
-  confirmPassword?: string
-  fullName?: string
-  phone?: string
-  userType?: "buyer" | "seller"
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  fullName?: string;
+  phone?: string;
+  userType?: "buyer" | "seller";
 }
