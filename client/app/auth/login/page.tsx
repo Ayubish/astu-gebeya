@@ -1,17 +1,17 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ShoppingBag, ArrowLeft } from "lucide-react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Eye, EyeOff } from "lucide-react"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -26,95 +26,107 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 to-accent/5">
-      {/* Header */}
-      <header className="border-b border-border bg-card sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <Link href="/" className="flex items-center gap-2 text-foreground hover:text-primary transition">
-            <ArrowLeft className="w-5 h-5" />
-            <span>Back to Marketplace</span>
-          </Link>
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center px-2">
+      <div className="w-full max-w-md">
+        {/* Logo */}
+        <div className="flex flex-col items-center justify-center gap-0 mb-6">
+          <div className="relative w-32 h-32">
+            <Image
+              src="/images/gebeyalogo.png"
+              alt="ASTU Gebeya Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+          <h1 className="text-4xl font-extrabold text-primary drop-shadow-md -mt-10">
+            ASTU Gebeya
+          </h1>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <div className="min-h-screen flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          {/* Logo */}
-          <div className="flex items-center justify-center gap-2 mb-8">
-            <div className="bg-primary p-2 rounded-lg">
-              <ShoppingBag className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-primary">ASTU</h1>
-              <p className="text-xs text-muted-foreground">Gebeya</p>
-            </div>
-          </div>
-
-          {/* Form Container */}
-          <div className="bg-card rounded-2xl border border-border shadow-lg p-8 animate-fade-in-up">
-            <h2 className="text-3xl font-bold text-foreground mb-2">Welcome Back</h2>
-            <p className="text-muted-foreground mb-8">Sign in to your ASTU Gebeya account</p>
-
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Email Address</label>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  className="bg-input border-border"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Password</label>
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="bg-input border-border"
-                  required
-                />
-              </div>
-
-              <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" className="rounded border-border" />
-                  <span className="text-foreground">Remember me</span>
-                </label>
-                <Link href="#" className="text-primary hover:text-primary/80 font-medium">
-                  Forgot Password?
-                </Link>
-              </div>
-
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-3 text-base"
-              >
-                {loading ? "Signing in..." : "Sign In"}
-              </Button>
-            </form>
-
-            <div className="mt-6 pt-6 border-t border-border text-center">
-              <p className="text-muted-foreground text-sm">
-                Don&apos;t have an account?{" "}
-                <Link href="/auth/register" className="text-primary hover:text-primary/80 font-semibold">
-                  Create one now
-                </Link>
-              </p>
-            </div>
-          </div>
-
-          {/* Footer */}
-          <p className="text-center text-xs text-muted-foreground mt-8">
-            By signing in, you agree to our Terms & Conditions and Privacy Policy
+        {/* Form Container */}
+        <div className="bg-card rounded-3xl border border-border shadow-xl p-8 sm:p-10 animate-fade-in-up transition-all duration-300 hover:shadow-2xl">
+          <h2 className="text-3xl font-bold text-foreground mb-2 text-center">
+            Welcome Back
+          </h2>
+          <p className="text-muted-foreground mb-6 text-center">
+            Sign in to your ASTU Gebeya account
           </p>
+
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Email Address
+              </label>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="bg-input border-border focus:ring-2 focus:ring-primary/40 transition-all duration-200"
+                required
+              />
+            </div>
+
+            <div className="relative">
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Password
+              </label>
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="bg-input border-border focus:ring-2 focus:ring-primary/40 pr-10 transition-all duration-200"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-9 right-3 text-muted-foreground hover:text-foreground transition"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between text-sm">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" className="rounded border-border" />
+                <span className="text-foreground">Remember me</span>
+              </label>
+              <Link
+                href="#"
+                className="text-primary hover:text-primary/80 font-medium transition-colors duration-200"
+              >
+                Forgot Password?
+              </Link>
+            </div>
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-3 text-lg transition-all duration-200"
+            >
+              {loading ? "Signing in..." : "Sign In"}
+            </Button>
+          </form>
+
+          <div className="mt-6 pt-6 border-t border-border text-center">
+            <p className="text-muted-foreground text-sm">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/auth/register"
+                className="text-primary hover:text-primary/80 font-semibold transition-colors duration-200"
+              >
+                Create one now
+              </Link>
+            </p>
+          </div>
+         
         </div>
+          <p className="text-center text-xs text-muted-foreground mt-6">
+          By signing up, you agree to our Terms & Conditions and Privacy Policy
+        </p>
       </div>
     </div>
   )

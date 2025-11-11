@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, MapPin, Star, Heart, Filter } from "lucide-react"
+import { ArrowLeft, MapPin, Star, Heart, Filter, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Header from "@/components/marketplace/header"
@@ -21,7 +21,7 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
   const [searchInCategory, setSearchInCategory] = useState("")
 
   const category = CATEGORIES.find((c) => c.id.toString() === params.id)
-  const categoryProducts = MOCK_PRODUCTS.filter((p) => p.category.toString() === params.id)
+  const categoryProducts = MOCK_PRODUCTS.filter((p) => p.category === Number.parseInt(params.id))
 
   const filteredProducts = categoryProducts.filter((p) =>
     p.title.toLowerCase().includes(searchInCategory.toLowerCase()),
@@ -66,25 +66,25 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
       <Header onSellClick={() => {}} />
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border">
+      <div className="bg-gradient-to-r from-primary via-primary to-primary/80 text-white">
         <div className="container mx-auto px-4 py-8">
-          <Link href="/categories" className="flex items-center gap-2 text-primary hover:text-primary/80 mb-4 w-fit">
+          <Link href="/categories" className="flex items-center gap-2 text-white/80 hover:text-white mb-4 w-fit">
             <ArrowLeft className="w-5 h-5" />
             Back to Categories
           </Link>
 
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-4">
             <div className="text-5xl">{category.icon}</div>
             <div>
-              <h1 className="text-3xl font-bold text-foreground">{category.name}</h1>
-              <p className="text-muted-foreground">{filteredProducts.length} items available</p>
+              <h1 className="text-3xl font-bold">{category.name}</h1>
+              <p className="text-white/90">{filteredProducts.length} items available</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filters & Search */}
-      <div className="bg-card border-b border-border sticky top-24 z-30">
+      <div className="bg-card border-b border-border sticky top-20 z-30">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
             <Input
@@ -119,74 +119,78 @@ export default function CategoryDetailsPage({ params }: CategoryDetailsPageProps
         {sortedProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {sortedProducts.map((product) => (
-              <div
-                key={product.id}
-                className="group bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-all duration-300"
-              >
-                {/* Image Container */}
-                <div className="relative overflow-hidden bg-muted h-56">
-                  <img
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-
-                  <div className="absolute top-2 left-2">
-                    <span className="px-2 py-1 bg-accent text-accent-foreground text-xs font-semibold rounded">
-                      {product.condition}
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={() => toggleFavorite(product.id)}
-                    className="absolute top-2 right-2 p-1.5 rounded-full bg-white/90 hover:bg-white transition"
-                  >
-                    <Heart
-                      className={`w-4 h-4 transition ${
-                        favorites.includes(product.id) ? "fill-red-500 text-red-500" : "text-muted-foreground"
-                      }`}
+              <Link key={product.id} href={`/products/${product.id}`}>
+                <div className="group bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-all duration-300 cursor-pointer h-full">
+                  {/* Image Container */}
+                  <div className="relative overflow-hidden bg-muted h-56">
+                    <img
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
-                  </button>
-                </div>
 
-                {/* Content */}
-                <div className="p-3">
-                  <p className="text-xl font-bold text-primary">ETB {product.price.toLocaleString()}</p>
-
-                  <h3 className="font-semibold text-foreground text-sm line-clamp-2 mb-2 mt-1">{product.title}</h3>
-
-                  <div className="flex items-center gap-1 mb-2">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-3 h-3 ${
-                            i < Math.floor(product.rating) ? "fill-accent text-accent" : "text-muted-foreground"
-                          }`}
-                        />
-                      ))}
+                    <div className="absolute top-2 left-2">
+                      <span className="px-2 py-1 bg-accent text-accent-foreground text-xs font-semibold rounded">
+                        {product.condition}
+                      </span>
                     </div>
-                    <span className="text-xs text-muted-foreground">{product.rating}</span>
+
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        toggleFavorite(product.id)
+                      }}
+                      className="absolute top-2 right-2 p-1.5 rounded-full bg-white/90 hover:bg-white transition"
+                    >
+                      <Heart
+                        className={`w-4 h-4 transition ${
+                          favorites.includes(product.id) ? "fill-red-500 text-red-500" : "text-muted-foreground"
+                        }`}
+                      />
+                    </button>
                   </div>
 
-                  <div className="border-t border-border pt-2 mb-2">
-                    <span className="text-xs font-medium text-foreground">{product.seller}</span>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                      <MapPin className="w-3 h-3" />
-                      {product.location}
-                    </div>
-                  </div>
+                  {/* Content */}
+                  <div className="p-3">
+                    <p className="text-xl font-bold text-primary">ETB {product.price.toLocaleString()}</p>
 
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm py-2">
-                    View Details
-                  </Button>
+                    <h3 className="font-semibold text-foreground text-sm line-clamp-2 mb-2 mt-1">{product.title}</h3>
+
+                    <div className="flex items-center gap-1 mb-2">
+                      <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-3 h-3 ${
+                              i < Math.floor(product.rating) ? "fill-accent text-accent" : "text-muted-foreground"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-xs text-muted-foreground">{product.rating}</span>
+                    </div>
+
+                    <div className="border-t border-border pt-2 mb-2">
+                      <span className="text-xs font-medium text-foreground">{product.seller}</span>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                        <MapPin className="w-3 h-3" />
+                        {product.location}
+                      </div>
+                    </div>
+
+                    <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm py-2">
+                      View Details
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
           <div className="text-center py-12">
+            <Search className="w-16 h-16 mx-auto text-muted-foreground mb-4 opacity-50" />
             <p className="text-muted-foreground text-lg">No items found in this category</p>
+            <p className="text-muted-foreground text-sm mt-2">Try adjusting your search</p>
           </div>
         )}
       </div>

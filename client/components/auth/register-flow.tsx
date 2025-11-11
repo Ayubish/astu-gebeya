@@ -51,7 +51,7 @@ export default function RegisterFlow({ onClose }: RegisterFlowProps) {
             >
               <div className="text-center">
                 <div className="text-4xl mb-2 group-hover:scale-110 transition">🛍️</div>
-                <h3 className="font-bold text-lg text-primary">I'm a Buyer</h3>
+                <h3 className="font-bold text-lg text-primary">I&apos;m a Buyer</h3>
                 <p className="text-sm text-muted-foreground mt-2">Browse and purchase items on campus</p>
               </div>
             </button>
@@ -62,7 +62,7 @@ export default function RegisterFlow({ onClose }: RegisterFlowProps) {
             >
               <div className="text-center">
                 <div className="text-4xl mb-2 group-hover:scale-110 transition">📦</div>
-                <h3 className="font-bold text-lg text-accent-foreground">I'm a Seller</h3>
+                <h3 className="font-bold text-lg text-accent-foreground">I&apos;m a Seller</h3>
                 <p className="text-sm text-muted-foreground mt-2">List and sell your items</p>
               </div>
             </button>
